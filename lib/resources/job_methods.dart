@@ -42,13 +42,13 @@ class JobMethods {
       final currentUserUid = _auth.currentUser?.uid;
 
       if (currentUserUid != null) {
-        // Query 'jobs' collection for jobs created by the current user
+        
         QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
             .collection('jobs')
             .where('uid', isEqualTo: currentUserUid)
             .get();
 
-        // Convert each document to a Job object and add it to the list
+        
         userJobs = snapshot.docs.map((doc) {
           return model.Job.fromJson(doc.data());
         }).toList();
@@ -65,6 +65,10 @@ class JobMethods {
   String res = "Something went wrong";
     try {
       await _firestore.collection('jobs').doc(jobId).delete();
+      await _firestore.collection('jobPublisher').doc(_auth.currentUser!.uid).update({
+        'jobs': FieldValue.arrayRemove([jobId])
+      });
+
       res = 'success';
     } catch (err) {
       res = err.toString();
