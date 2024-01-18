@@ -117,6 +117,8 @@ class JobMethods {
             'job': job.toJson(),
             'companyName': publisherSnapshot.data()!['companyName'],
             'companyLogo': publisherSnapshot.data()!['companyLogo'],
+            'companyDesc': publisherSnapshot.data()!['companyDesc'],
+            'email': publisherSnapshot.data()!['email'],
           };
 
           jobsWithPublishers.add(jobWithPublisher);

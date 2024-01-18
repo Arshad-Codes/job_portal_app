@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_portal_app/models/job.dart' as model;
 import 'package:job_portal_app/models/job_publisher.dart';
+import 'package:job_portal_app/pages/job_view.dart';
 import 'package:job_portal_app/pages/login_page.dart';
 import 'package:job_portal_app/resources/auth.dart';
 import 'package:job_portal_app/resources/job_methods.dart';
@@ -83,11 +84,28 @@ Widget _buildJobCard(Map<String, dynamic> jobWithPublisher) {
     model.Job job = model.Job.fromJson(jobWithPublisher['job']);
     String companyName = jobWithPublisher['companyName'] ?? 'N/A';
     String companyLogo = jobWithPublisher['companyLogo'] ?? '';
+    String companyDesc = jobWithPublisher['companyDesc'] ?? '';
+    String email = jobWithPublisher['email'] ?? '';
 
     return Card(
       elevation: 3,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: ListTile(
+         onTap: () {
+          // Navigate to JobDetails page with required data
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JobView(
+                job: job,
+                companyName: companyName,
+                companyLogo: companyLogo,
+                companyDescription: companyDesc,
+                companyEmail: email,
+              ),
+            ),
+          );
+        },
         contentPadding: EdgeInsets.all(16),
         title: Text(
           job.title,
