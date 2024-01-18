@@ -8,7 +8,6 @@ import 'package:job_portal_app/resources/job_publisher_provider.dart';
 import 'package:job_portal_app/resources/utils.dart';
 import 'package:provider/provider.dart';
 
-
 class JobCrudPage extends StatefulWidget {
   const JobCrudPage({Key? key}) : super(key: key);
 
@@ -84,7 +83,6 @@ class _JobCrudPageState extends State<JobCrudPage> {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //Text(jobs[index].description),
                   SizedBox(height: 8),
                   Text('Salary: \$${jobs[index].salary.toString()}'),
                 ],
@@ -101,16 +99,16 @@ class _JobCrudPageState extends State<JobCrudPage> {
                   ),
                 ],
               ),
-              // Add more details as needed
             ),
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           _showAddJobDialog(context);
         },
-        child: Icon(Icons.add),
+        label: Text('Add Job'),
+        icon: Icon(Icons.add),
         backgroundColor: Colors.blue, // Choose a suitable color
       ),
     );
@@ -153,56 +151,65 @@ class _JobCrudPageState extends State<JobCrudPage> {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Add New Job'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
-              ),
-              TextField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
-              ),
-              TextField(
-                controller: _salaryController,
-                decoration: InputDecoration(labelText: 'Salary'),
-                keyboardType: TextInputType.number,
-              ),
-            ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () async {
-                if (currentuser == null) {
-                  snackBarMessage(context, "There is no user signed in");
-                } else {
-                  addJob(
-                    currentuser.uid,
-                    currentuser.companyName,
-                    _titleController.text,
-                    _descriptionController.text,
-                    (double.tryParse(_salaryController.text) ?? 0.0),
-                  );
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Add New Job',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(labelText: 'Title'),
+                ),
+                SizedBox(height: 12),
+                TextField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(labelText: 'Description'),
+                ),
+                SizedBox(height: 12),
+                TextField(
+                  controller: _salaryController,
+                  decoration: InputDecoration(labelText: 'Salary'),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (currentuser == null) {
+                      snackBarMessage(context, "There is no user signed in");
+                    } else {
+                      addJob(
+                        currentuser.uid,
+                        currentuser.companyName,
+                        _titleController.text,
+                        _descriptionController.text,
+                        (double.tryParse(_salaryController.text) ?? 0.0),
+                      );
 
-                  // Reload data after adding a job
-                  dataReload();
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // Choose a suitable color
-              ),
-              child: Text('Add'),
+                      // Reload data after adding a job
+                      dataReload();
+                      Navigator.of(context).pop(); // Close the dialog
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // Choose a suitable color
+                  ),
+                  child: Text('Add'),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
+          ),
         );
       },
     );
