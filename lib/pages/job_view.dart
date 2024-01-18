@@ -62,6 +62,7 @@ class JobView extends StatelessWidget {
               companyLogo: companyLogo,
             ),
           ),
+
           ApplyButton(onPressed: () => _applyForJob(context)),
         ],
       ),

@@ -27,7 +27,7 @@ class _JobListState extends State<JobList> {
   }
 
   dataReload() async {
-       // Fetch all jobs
+    // Fetch all jobs
     List<Map<String, dynamic>> fetchedJobs =
         await JobMethods().getAllJobsWithPublishers();
 
@@ -41,12 +41,13 @@ class _JobListState extends State<JobList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromRGBO(72, 143, 177, 1),
         title: Text(
           'Job List',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
       ),
@@ -66,11 +67,13 @@ class _JobListState extends State<JobList> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: displayedJobs.length,
-              itemBuilder: (context, index) {
-                return _buildJobCard(displayedJobs[index]);
-              },
+            child: Container(
+              child: ListView.builder(
+                itemCount: displayedJobs.length,
+                itemBuilder: (context, index) {
+                  return _buildJobCard(displayedJobs[index]);
+                },
+              ),
             ),
           ),
         ],
@@ -78,9 +81,7 @@ class _JobListState extends State<JobList> {
     );
   }
 
-
-
-Widget _buildJobCard(Map<String, dynamic> jobWithPublisher) {
+  Widget _buildJobCard(Map<String, dynamic> jobWithPublisher) {
     model.Job job = model.Job.fromJson(jobWithPublisher['job']);
     String companyName = jobWithPublisher['companyName'] ?? 'N/A';
     String companyLogo = jobWithPublisher['companyLogo'] ?? '';
@@ -90,8 +91,9 @@ Widget _buildJobCard(Map<String, dynamic> jobWithPublisher) {
     return Card(
       elevation: 3,
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      color: Color.fromRGBO(68, 95, 133, 1),
       child: ListTile(
-         onTap: () {
+        onTap: () {
           // Navigate to JobDetails page with required data
           Navigator.push(
             context,
@@ -107,30 +109,56 @@ Widget _buildJobCard(Map<String, dynamic> jobWithPublisher) {
           );
         },
         contentPadding: EdgeInsets.all(16),
-        title: Text(
-          job.title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        title: Row(
           children: [
-            SizedBox(height: 8),
-            Text('Salary: \$${job.salary.toString()}'),
-            SizedBox(height: 8),
-            Text('Company: $companyName'),
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(companyLogo),
+            ),
+            SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    job.title,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(
+                          174, 236, 245, 1), // Change the color as needed
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Company: $companyName',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(
+                          174, 236, 245, 1), // Change the color as needed
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        trailing: CircleAvatar(
-          radius: 30,
-          backgroundImage:NetworkImage(companyLogo),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'Salary: \$${job.salary.toString()}',
+              style: TextStyle(
+                fontSize: 16,
+                color: Color.fromRGBO(
+                    174, 236, 245, 1), // Change the color as needed
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-
 
   void onSearchTextChanged(String query) {
     setState(() {
