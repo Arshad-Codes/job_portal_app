@@ -29,6 +29,23 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white24,
+          title: Text(
+            'Welcome',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(); // Navigate back to the previous screen
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           child: Container(
             child: Column(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_portal_app/models/job.dart' as model;
+import 'package:job_portal_app/models/job_publisher.dart';
 import 'package:uuid/uuid.dart';
 
 class JobMethods {
@@ -75,4 +76,60 @@ class JobMethods {
     }
     return res;
  }
+
+  Future<List<model.Job>> getAllJobs() async {
+    List<model.Job> allJobs = [];
+
+    try {
+     
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('jobs').get();
+
+      allJobs = snapshot.docs.map((doc) {
+        return model.Job.fromJson(doc.data());
+      }).toList();
+    } catch (e) {
+
+      print('Error fetching all jobs: $e');
+    }
+
+    return allJobs;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllJobsWithPublishers() async {
+    List<Map<String, dynamic>> jobsWithPublishers = [];
+
+    try {
+      // Fetch all jobs
+      QuerySnapshot<Map<String, dynamic>> jobsSnapshot =
+          await _firestore.collection('jobs').get();
+
+      for (QueryDocumentSnapshot<Map<String, dynamic>> jobDoc in jobsSnapshot.docs) {
+        model.Job job = model.Job.fromJson(jobDoc.data()!);
+
+        // Fetch job publisher details using job's uid
+        DocumentSnapshot<Map<String, dynamic>> publisherSnapshot =
+            await _firestore.collection('jobPublisher').doc(job.uid).get();
+
+        if (publisherSnapshot.exists) {
+          // Create a map to hold job and publisher information
+          Map<String, dynamic> jobWithPublisher = {
+            'job': job.toJson(),
+            'companyName': publisherSnapshot.data()!['companyName'],
+            'companyLogo': publisherSnapshot.data()!['companyLogo'],
+          };
+
+          jobsWithPublishers.add(jobWithPublisher);
+        }
+      }
+    } catch (e) {
+  
+      print('Error fetching jobs with publishers: $e');
+    }
+
+    return jobsWithPublishers;
+  }
 }
+
+
+

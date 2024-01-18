@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
               // Checking if the snapshot has any data or not
               if (snapshot.hasData) {
     
-                return const JobCrudPage();
+                return JobCrudPage();
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text('${snapshot.error}'),

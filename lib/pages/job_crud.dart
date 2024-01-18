@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:job_portal_app/models/job.dart' as model;
 import 'package:job_portal_app/models/job_publisher.dart';
 import 'package:job_portal_app/pages/login_page.dart';
+import 'package:job_portal_app/pages/welcome.dart';
 import 'package:job_portal_app/resources/auth.dart';
 import 'package:job_portal_app/resources/job_methods.dart';
 import 'package:job_portal_app/resources/job_publisher_provider.dart';
@@ -60,7 +61,7 @@ class _JobCrudPageState extends State<JobCrudPage> {
               // Navigate back to the login page or any other desired page
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => Welcome()),
               );
             },
           ),
@@ -229,7 +230,7 @@ class _JobCrudPageState extends State<JobCrudPage> {
         if (response != "success") {
           snackBarMessage(context, response);
         } else {
-          Navigator.of(context).pop();
+          //Navigator.of(context).pop();
         }
       } catch (err) {
         snackBarMessage(context, err.toString());
