@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 
 
 class ApplyButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
   const ApplyButton({
     Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -15,7 +18,7 @@ class ApplyButton extends StatelessWidget {
         vertical: 5 * 16.0,
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           primary: Colors.yellow,
           onPrimary: Colors.black,
