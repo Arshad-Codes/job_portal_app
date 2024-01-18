@@ -8,7 +8,6 @@ import 'package:job_portal_app/resources/job_publisher_provider.dart';
 import 'package:job_portal_app/resources/utils.dart';
 import 'package:provider/provider.dart';
 
-
 class JobCrudPage extends StatefulWidget {
   const JobCrudPage({Key? key}) : super(key: key);
 
@@ -77,16 +76,30 @@ class _JobCrudPageState extends State<JobCrudPage> {
               title: Text(
                 jobs[index].title,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.blue, // Title color
                 ),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //Text(jobs[index].description),
+                  Text(
+                    jobs[index].description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600], // Description color
+                    ),
+                  ),
                   SizedBox(height: 8),
-                  Text('Salary: \$${jobs[index].salary.toString()}'),
+                  Text(
+                    'Salary: \$${jobs[index].salary.toString()}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green, // Salary color
+                    ),
+                  ),
                 ],
               ),
               trailing: Row(
@@ -97,11 +110,10 @@ class _JobCrudPageState extends State<JobCrudPage> {
                     onPressed: () {
                       _deleteJob(jobs[index].jobId);
                     },
-                    color: Colors.red, // Choose a suitable color
+                    color: Colors.red, // Delete button color
                   ),
                 ],
               ),
-              // Add more details as needed
             ),
           );
         },

@@ -8,6 +8,9 @@ import 'package:job_portal_app/pages/job_crud.dart';
 import 'package:job_portal_app/pages/login_page.dart';
 import 'package:job_portal_app/resources/job_publisher_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:job_portal_app/pages/data.dart';
+import 'package:job_portal_app/pages/job_detail.dart';
+import 'package:job_portal_app/pages/jobs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +19,7 @@ void main() async {
   );
   runApp(const MyApp());
 }
+
 final navigatorKey = GlobalKey<NavigatorState>();
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
@@ -54,7 +58,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Job Portal',
-        theme:  ThemeData(
+        theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
@@ -64,7 +68,6 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               // Checking if the snapshot has any data or not
               if (snapshot.hasData) {
-    
                 return const JobCrudPage();
               } else if (snapshot.hasError) {
                 return Center(
